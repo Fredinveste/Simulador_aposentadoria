@@ -4,37 +4,51 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Simulador de Aposentadoria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f3f5f2;--card:#fff;--ink:#1d2b26;--mut:#66756f;--line:#dde3df;--g:#0f766e;--b:#2563eb;--o:#d97706;--r:#dc2626}
+:root{--bg:#4a5d3b;--card:#fff;--ink:#1d2b26;--mut:#5b6a62;--line:#d8dfd0;--g:#0f766e;--b:#2563eb;--o:#d97706;--r:#dc2626;
+--font:'Source Serif 4','Source Serif Pro',Georgia,'Times New Roman',serif}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,'Times New Roman',serif;line-height:1.5}
-.wrap{max-width:1100px;margin:0 auto;padding:24px 16px 48px}
-h1{font-size:30px;margin:0 0 4px}
-.sub{color:var(--mut);margin:0 0 20px;font-family:system-ui,sans-serif;font-size:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;margin-top:16px}
-.st{font-size:17px;font-weight:700;margin:0 0 12px}
-.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;font-family:system-ui,sans-serif}
-label{display:block;font-size:12px;color:var(--mut);margin-bottom:3px}
-input,select{width:100%;padding:8px;border:1px solid var(--line);border-radius:6px;font-size:14px;background:#fff}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.55;font-variant-numeric:lining-nums tabular-nums}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 16px 48px}
+h1{font-size:32px;margin:0 0 6px;color:#f7f6ec;font-weight:700;letter-spacing:.2px}
+.sub{color:#e0e8d4;margin:0 0 20px;font-size:16px;max-width:70ch}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:20px;margin-top:16px}
+.st{font-size:18px;font-weight:700;margin:0 0 12px}
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+label{display:block;font-size:13px;color:var(--mut);margin-bottom:3px}
+input,select,button{font-family:inherit}
+input,select{width:100%;padding:8px;border:1px solid #c9d1c2;border-radius:6px;font-size:15px;background:#fff;color:var(--ink)}
 button{padding:9px 14px;border:0;border-radius:6px;background:var(--g);color:#fff;font-size:14px;cursor:pointer}
 button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--b);outline-offset:2px}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.kpi{border-left:4px solid var(--g);background:#f8faf9;padding:10px 12px;border-radius:6px;font-family:system-ui,sans-serif}
-.kpi .l{font-size:12px;color:var(--mut)}.kpi .v{font-size:22px;font-weight:700}.kpi small{color:var(--mut)}
+.hint{font-size:12.5px;color:var(--mut);margin-top:4px;line-height:1.4}
+button.link{background:none;border:0;padding:0;color:var(--b);font-size:inherit;text-decoration:underline;cursor:pointer}
+.note{margin-top:14px;padding:12px 14px;background:#f4f7ef;border-left:4px solid #6f8a4f;border-radius:4px;font-size:14.5px;color:#344054}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.kpi{border-left:4px solid var(--g);background:#f7f9f4;padding:10px 12px;border-radius:6px}
+.kpi .l{font-size:13px;color:var(--mut)}.kpi .v{font-size:23px;font-weight:700}.kpi small{color:var(--mut);font-size:13px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid2 .card{margin-top:16px}
 @media(max-width:800px){.grid2{grid-template-columns:1fr}}
 canvas{width:100%;height:280px;display:block}
-.legend{font:12px system-ui,sans-serif;color:var(--mut);display:flex;gap:14px;flex-wrap:wrap;margin-top:6px}
+.legend{font-size:13px;color:var(--mut);display:flex;gap:14px;flex-wrap:wrap;margin-top:6px}
 .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
-.help,.info{font:14px system-ui,sans-serif;color:#344054;margin-top:8px}
-.badge{display:inline-block;padding:3px 10px;border-radius:99px;font:600 12px system-ui,sans-serif}
-.good{background:#d1fae5;color:#065f46}.bad{background:#fee2e2;color:#991b1b}
+.help,.info{font-size:15px;color:#344054;margin-top:8px}
+.info p{margin:8px 0}
+.badge{display:inline-block;padding:3px 10px;border-radius:99px;font-weight:600;font-size:13px}
+.good{background:#d1fae5;color:#065f46}.bad{background:#fee2e2;color:#991b1b}.warn{background:#fef3c7;color:#92400e}
 .tw{max-height:420px;overflow:auto;border:1px solid var(--line);border-radius:6px}
-table{border-collapse:collapse;width:100%;font:13px system-ui,sans-serif}
+table{border-collapse:collapse;width:100%;font-size:14px}
 th,td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
-th{position:sticky;top:0;background:#eef2ef}
+th{position:sticky;top:0;background:#eef2ea}
 td input{width:110px;text-align:right;padding:4px}
 tr.hit td{background:#ecfdf5}
+.sug-t{width:auto;margin:6px 0}.sug-t th{position:static}
+.sug-t th,.sug-t td{padding:6px 14px}
+.sug-t th:first-child,.sug-t td:first-child{text-align:left}
+ul.sug{margin:6px 0 6px 18px;padding:0}ul.sug li{margin:6px 0}
 a{color:var(--b);text-decoration:none}a:hover{text-decoration:underline}
 </style>
 </head>
@@ -47,7 +61,7 @@ a{color:var(--b);text-decoration:none}a:hover{text-decoration:underline}
   <div class="st">Premissas</div>
   <div class="form">
     <div><label for="currentAge">Idade atual</label><input id="currentAge" type="number" min="0" value="30"></div>
-    <div><label for="retireAge">Idade planejada de aposentadoria</label><input id="retireAge" type="number" min="1" value="60"></div>
+    <div><label for="retireAge">Idade planejada de aposentadoria</label><input id="retireAge" type="number" min="1" value="60"><div class="hint">Se as premissas não alcançarem essa idade, o simulador calcula quando você realmente se aposenta.</div></div>
     <div><label for="retireIncome">Renda mensal desejada (R$ de hoje)</label><input id="retireIncome" type="number" min="0" value="10000"></div>
     <div><label for="initial">Patrimônio inicial (R$)</label><input id="initial" type="number" min="0" value="20000"></div>
     <div><label for="contrib">Aporte mensal inicial (R$)</label><input id="contrib" type="number" min="0" value="1500"></div>
@@ -55,9 +69,10 @@ a{color:var(--b);text-decoration:none}a:hover{text-decoration:underline}
       <select id="mode"><option value="fixed">Sem reajuste</option><option value="inflation" selected>Corrigir pela inflação</option><option value="rate">Aumento percentual</option></select></div>
     <div><label for="rate">Aumento percentual anual (%)</label><input id="rate" type="number" min="0" step="0.1" value="5"></div>
     <div><label for="ret">Rentabilidade nominal (% a.a.)</label><input id="ret" type="number" step="0.1" value="10"></div>
-    <div><label for="infl">Inflação (% a.a.)</label><input id="infl" type="number" step="0.1" value="4.5"></div>
+    <div><label for="infl">Inflação (% a.a.)</label><input id="infl" type="number" step="0.1" value="4.2"><div class="hint">Sugestão: <strong>4,2% a.a.</strong>, média anual dos últimos 12 meses. <button type="button" class="link" id="useInfl">Usar 4,2%</button></div></div>
   </div>
-  <div class="info"><strong>Como o simulador define a aposentadoria:</strong> a renda informada é tratada como <strong>R$ de hoje</strong> e corrigida pela inflação ao longo do tempo. A independência financeira é alcançada quando o <strong>rendimento mensal projetado do patrimônio é igual ou superior à renda mensal desejada</strong>. Não é usada taxa fixa de retirada.</div>
+  <div class="note"><strong>O que é inflação?</strong> É a alta generalizada dos preços ao longo do tempo: com ela, o mesmo dinheiro compra menos a cada ano. Neste simulador, a inflação corrige a renda desejada (de R$ de hoje para o valor futuro) e, se você escolher, o aporte anual. A média dos últimos 12 meses foi de cerca de <strong>4,2% ao ano</strong>; use outro valor se tiver uma expectativa diferente para os próximos anos.</div>
+  <div class="info"><strong>Como o simulador define a aposentadoria:</strong> a renda informada é tratada como <strong>R$ de hoje</strong> e corrigida pela inflação ao longo do tempo. A independência financeira é alcançada quando o <strong>rendimento mensal projetado do patrimônio é igual ou superior à renda mensal desejada</strong>. Não é usada taxa fixa de retirada. Se a meta não for atingida até a idade planejada, a simulação continua (por até 200 anos) para mostrar quando você realmente se aposentaria.</div>
 </div>
 
 <div class="card"><div class="st">Resultado</div><div id="kpis" class="kpis"></div></div>
@@ -90,8 +105,10 @@ a{color:var(--b);text-decoration:none}a:hover{text-decoration:underline}
 
 <div class="card"><div class="st">Diagnóstico</div><div id="diag" class="info" style="margin-top:0"></div></div>
 
+<div class="card"><div class="st">Sugestões para revisar suas premissas</div><div id="sug" class="info" style="margin-top:0"></div></div>
+
 <div class="card">
-  <div class="st">Quer conversar sobre sua organização financeira?</div>
+  <div class="st">Quer conversar sobre seus investimentos?</div>
   <div class="info" style="margin-top:0">
     <strong>Planejamento financeiro fica muito mais fácil quando você transforma seus objetivos em números e acompanha a evolução ao longo do tempo.</strong><br><br>
     Se quiser conversar sobre finanças pessoais, organização da vida financeira ou sobre como estruturar suas metas, entre em contato para um bate-papo:<br><br>
@@ -112,41 +129,65 @@ a{color:var(--b);text-decoration:none}a:hover{text-decoration:underline}
 const $=id=>document.getElementById(id);
 const money=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 const num=v=>parseFloat(v)||0;
-let sim=[], ov={}; // ov[m] = {c:aporte, x:extra}
+const pct=v=>v.toLocaleString('pt-BR',{maximumFractionDigits:1})+'%';
+const fmtAge=a=>a.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1});
+const plural=(n,s,p)=>n+' '+(n===1?s:p);
+function fmtYM(m){m=Math.max(0,Math.round(m));const y=Math.floor(m/12),r=m%12;
+  if(!y)return plural(r,'mês','meses');if(!r)return plural(y,'ano','anos');return plural(y,'ano','anos')+' e '+plural(r,'mês','meses')}
+const CAP_YEARS=200, FONT='"Source Serif 4",Georgia,serif';
+let ov={}; // ov[m] = {c:aporte, x:extra}
 
 function params(){
-  const ret=num($('ret').value)/100, infl=num($('infl').value)/100;
-  return {age:num($('currentAge').value), rAge:num($('retireAge').value), income:num($('retireIncome').value),
+  const ret=num($('ret').value)/100, infl=num($('infl').value)/100, age=num($('currentAge').value), rAge=num($('retireAge').value);
+  return {age,rAge,n:Math.max(0,Math.round((rAge-age)*12)),income:num($('retireIncome').value),
     initial:num($('initial').value), contrib:num($('contrib').value), mode:$('mode').value, rate:num($('rate').value)/100,
-    mRet:Math.pow(1+ret,1/12)-1, aInfl:infl, mInfl:Math.pow(1+infl,1/12)-1};
+    ret, mRet:Math.pow(1+ret,1/12)-1, aInfl:infl, mInfl:Math.pow(1+infl,1/12)-1};
 }
 
-function simulate(p){
-  const n=Math.max(0,Math.round((p.rAge-p.age)*12)), now=new Date();
-  let bal=p.initial, auto=p.contrib; sim=[];
-  sim.push({m:0,age:p.age,year:now.getFullYear(),start:bal,interest:0,contrib:0,auto:0,extra:0,end:bal,infl:1,want:p.income});
-  for(let m=1;m<=n;m++){
-    // Reajuste do aporte uma vez por ano, no aniversário do aporte.
+/* Simula mês a mês. Continua além da idade planejada até a renda ser coberta (ou até 200 anos). */
+function simulate(p,ovr,o={}){
+  const limit=o.limit??CAP_YEARS*12, keep=o.keep!==false, stopEarly=!!o.stopEarly, minM=o.minM??0, now=new Date();
+  let bal=p.initial, auto=p.contrib, hit=null; const rows=[];
+  if(keep)rows.push({m:0,age:p.age,year:now.getFullYear(),start:bal,interest:0,contrib:0,auto:0,extra:0,end:bal,infl:1,want:p.income});
+  for(let m=1;m<=limit;m++){
     if(m%12===1 && m>1){
       if(p.mode==='inflation') auto*=1+p.aInfl;
       if(p.mode==='rate') auto*=1+p.rate;
     }
-    const o=ov[m]||{};
-    const c=o.c!==undefined?o.c:auto, x=o.x||0;
+    const o2=ovr[m]||{};
+    const c=o2.c!==undefined?o2.c:auto, x=o2.x||0;
     const interest=bal*p.mRet, end=Math.max(0,bal+interest+c+x), f=Math.pow(1+p.mInfl,m);
-    sim.push({m,age:p.age+m/12,year:now.getFullYear()+Math.floor((now.getMonth()+m)/12),start:bal,interest,contrib:c,auto,extra:x,end,infl:f,want:p.income*f});
+    const row={m,age:p.age+m/12,year:now.getFullYear()+Math.floor((now.getMonth()+m)/12),start:bal,interest,contrib:c,auto,extra:x,end,infl:f,want:p.income*f};
+    if(keep)rows.push(row);
     bal=end;
+    if(!hit&&interest>=row.want)hit=row;
+    if(hit&&(stopEarly||m>=minM))break;
   }
+  return {rows,hit};
 }
+
+/* Menor aporte mensal inicial que permite atingir a meta em até T meses. */
+function needContrib(p,T){
+  if(T<1)return null;
+  const ok=c=>!!simulate({...p,contrib:c},{},{limit:T,keep:false,stopEarly:true}).hit;
+  if(ok(0))return 0;
+  let lo=0,hi=Math.max(1000,p.contrib*2);
+  while(!ok(hi)){lo=hi;hi*=2;if(hi>1e11)return null}
+  for(let i=0;i<40;i++){const mid=(lo+hi)/2;ok(mid)?hi=mid:lo=mid}
+  return hi;
+}
+const hitOf=pp=>simulate(pp,{},{keep:false,stopEarly:true}).hit;
+const withRet=(p,d)=>{const r=p.ret+d/100;return {...p,ret:r,mRet:Math.pow(1+r,1/12)-1}};
+const whenTxt=r=>r?`aos <strong>${fmtAge(r.age)} anos</strong> (daqui a ${fmtYM(r.m)})`:`<strong>somente após ${CAP_YEARS} anos</strong>, ou seja, na prática nunca`;
 
 function pie(id,vals,cols){
   const c=$(id),ctx=c.getContext('2d'),r0=c.getBoundingClientRect(),d=devicePixelRatio||1;
   c.width=r0.width*d;c.height=r0.height*d;ctx.setTransform(d,0,0,d,0,0);
   const w=r0.width,h=r0.height,t=vals.reduce((a,b)=>a+b,0);ctx.clearRect(0,0,w,h);
-  if(t<=0){ctx.fillStyle='#66756f';ctx.textAlign='center';ctx.fillText('Sem patrimônio para distribuir',w/2,h/2);return}
+  if(t<=0){ctx.fillStyle='#5b6a62';ctx.font='14px '+FONT;ctx.textAlign='center';ctx.fillText('Sem patrimônio para distribuir',w/2,h/2);return}
   let a=-Math.PI/2;const R=Math.min(w,h)*.42;
   vals.forEach((v,i)=>{if(v<=0)return;const s=v/t*Math.PI*2;ctx.beginPath();ctx.moveTo(w/2,h/2);ctx.arc(w/2,h/2,R,a,a+s);ctx.closePath();ctx.fillStyle=cols[i];ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();
-    if(v/t>.06){const m=a+s/2;ctx.fillStyle='#fff';ctx.font='bold 13px system-ui';ctx.textAlign='center';ctx.fillText((v/t*100).toFixed(1)+'%',w/2+Math.cos(m)*R*.65,h/2+Math.sin(m)*R*.65+4)}a+=s});
+    if(v/t>.06){const m=a+s/2;ctx.fillStyle='#fff';ctx.font='bold 13px '+FONT;ctx.textAlign='center';ctx.fillText((v/t*100).toFixed(1)+'%',w/2+Math.cos(m)*R*.65,h/2+Math.sin(m)*R*.65+4)}a+=s});
 }
 
 function line(id,labels,series){
@@ -154,59 +195,119 @@ function line(id,labels,series){
   c.width=r0.width*d;c.height=r0.height*d;ctx.setTransform(d,0,0,d,0,0);
   const w=r0.width,h=r0.height,L=62,B=24,T=8,R=8;ctx.clearRect(0,0,w,h);
   const max=Math.max(1,...series.flatMap(s=>s.data));
-  ctx.font='11px system-ui';ctx.strokeStyle='#dde3df';ctx.fillStyle='#66756f';ctx.lineWidth=1;
+  ctx.font='12px '+FONT;ctx.strokeStyle='#d8dfd0';ctx.fillStyle='#5b6a62';ctx.lineWidth=1;
   for(let i=0;i<=4;i++){const y=T+(h-T-B)*i/4;ctx.beginPath();ctx.moveTo(L,y);ctx.lineTo(w-R,y);ctx.stroke();
-    ctx.textAlign='right';const v=max*(1-i/4);ctx.fillText(v>=1e6?(v/1e6).toFixed(1)+' mi':v>=1e3?(v/1e3).toFixed(0)+' mil':v.toFixed(0),L-6,y+4)}
+    ctx.textAlign='right';const v=max*(1-i/4);ctx.fillText(v>=1e9?(v/1e9).toFixed(1)+' bi':v>=1e6?(v/1e6).toFixed(1)+' mi':v>=1e3?(v/1e3).toFixed(0)+' mil':v.toFixed(0),L-6,y+4)}
   const n=labels.length,step=Math.max(1,Math.ceil(n/8));ctx.textAlign='center';
   labels.forEach((l,i)=>{if(i%step===0)ctx.fillText(l,L+(w-L-R)*(n<2?0:i/(n-1)),h-6)});
   series.forEach(s=>{ctx.beginPath();ctx.strokeStyle=s.color;ctx.lineWidth=2.2;
     s.data.forEach((v,i)=>{const x=L+(w-L-R)*(n<2?0:i/(n-1)),y=T+(h-T-B)*(1-v/max);i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke()});
 }
 
+function suggestions(p,hit,plan){
+  const n=p.n, delayed=!hit||hit.m>n; let h='';
+  const need=n>0?needContrib(p,n):null;
+
+  if(!delayed){
+    h+=`<p><span class="badge good">Premissas consistentes</span></p>`;
+    if(need!==null&&need<p.contrib-0.5){
+      h+=`<p>Há folga no plano: um aporte mensal inicial de <strong>${money(need)}</strong> (${money(p.contrib-need)} a menos que o atual) já bastaria para se aposentar aos <strong>${p.rAge} anos</strong>. Você pode usar essa margem para reduzir o aporte, aumentar a renda desejada ou antecipar a aposentadoria.</p>`;
+    }else{
+      h+=`<p>O aporte atual está bem ajustado à meta: ele é próximo do mínimo necessário para se aposentar aos <strong>${p.rAge} anos</strong>, sem muita folga. Considere manter uma margem de segurança para oscilações de rentabilidade.</p>`;
+    }
+  }else{
+    h+=`<p><span class="badge ${hit?'warn':'bad'}">Revisão recomendada</span></p>`;
+    if(n>0&&need!==null){
+      if(need===0) h+=`<p>Seu patrimônio inicial já seria suficiente para a meta aos ${p.rAge} anos; confira as demais premissas.</p>`;
+      else h+=`<p><strong>Aumentar o aporte:</strong> para se aposentar aos <strong>${p.rAge} anos</strong>, o aporte mensal inicial precisaria ser de <strong>${money(need)}</strong>, ou seja, <strong>${money(Math.max(0,need-p.contrib))}</strong>${p.contrib>0?` (${pct((need/p.contrib-1)*100)}) acima dos ${money(p.contrib)} atuais`:' acima do valor atual'}.</p>`;
+    }else if(n>0){
+      h+=`<p><strong>Aumentar o aporte</strong> isoladamente não é suficiente para a meta aos ${p.rAge} anos nestas premissas; revise também a rentabilidade ou a renda desejada.</p>`;
+    }
+    // cenários com prazo maior
+    const rows=[0,5,10].map(add=>{
+      const T=n+add*12; if(p.age+T/12>100)return '';
+      const c=needContrib(p,T);
+      return `<tr><td>${p.rAge+add} anos${add?` (+${add} anos)`:''}</td><td>${c===null?'—':money(c)}</td></tr>`;
+    }).join('');
+    if(rows) h+=`<p><strong>Ou contribuir por mais tempo:</strong> aporte mensal inicial necessário conforme a idade de aposentadoria.</p><table class="sug-t"><thead><tr><th>Idade de aposentadoria</th><th>Aporte mensal inicial</th></tr></thead><tbody>${rows}</tbody></table>`;
+    if(n>0&&plan){
+      const sust=plan.interest/plan.infl;
+      h+=`<p><strong>Ou ajustar a renda desejada:</strong> com o aporte atual, aos ${p.rAge} anos seu patrimônio sustentaria cerca de <strong>${money(sust)}</strong> por mês em valores de hoje, contra os ${money(p.income)} desejados.</p>`;
+    }
+  }
+
+  // sensibilidade e ajustes de premissas
+  const up=hitOf(withRet(p,1)), dn=hitOf(withRet(p,-1));
+  const items=[];
+  items.push(`Rentabilidade 1 p.p. maior (${pct((p.ret+.01)*100)} a.a.): aposentadoria ${whenTxt(up)}.`);
+  items.push(`Rentabilidade 1 p.p. menor (${pct((p.ret-.01)*100)} a.a.): aposentadoria ${whenTxt(dn)}.`);
+  if(p.mode==='fixed'){
+    const hi=hitOf({...p,mode:'inflation'});
+    items.push(`Corrigindo o aporte pela inflação todo ano, a aposentadoria ficaria ${whenTxt(hi)}.`);
+  }
+  h+=`<p><strong>Sensibilidade a outras premissas:</strong></p><ul class="sug">${items.map(i=>`<li>${i}</li>`).join('')}</ul>`;
+  if(p.ret<=p.aInfl) h+=`<p><span class="badge bad">Atenção</span> A rentabilidade nominal (${pct(p.ret*100)}) não supera a inflação (${pct(p.aInfl*100)}): em termos reais seu patrimônio não cresce, e a meta depende quase só dos aportes.</p>`;
+  if(Object.keys(ov).length) h+=`<p class="hint">As sugestões consideram apenas as premissas do formulário, sem as alterações manuais feitas na tabela mensal.</p>`;
+  return h;
+}
+
 function render(){
-  const p=params();simulate(p);
-  const last=sim.at(-1),hit=sim.find(x=>x.m>0&&x.interest>=x.want),ok=!!hit;
-  const tc=sim.reduce((s,x)=>s+x.contrib,0),tx=sim.reduce((s,x)=>s+x.extra,0),ti=sim.reduce((s,x)=>s+x.interest,0);
+  const p=params(), n=p.n;
+  const res=simulate(p,ov,{minM:n}), view=res.rows, hit=res.hit, ok=!!hit, last=view.at(-1);
+  const plan=view[Math.min(n,view.length-1)], ref=ok?hit:last;
+  const delay=ok?hit.m-n:null;
+  const tc=view.reduce((s,x)=>s+x.contrib,0),tx=view.reduce((s,x)=>s+x.extra,0),ti=view.reduce((s,x)=>s+x.interest,0);
   const kp=(a,b,c)=>`<div class="kpi"><div class="l">${a}</div><div class="v">${b}</div><small>${c}</small></div>`;
 
+  let cmp='';
+  if(ok) cmp=Math.abs(delay)<1?'Dentro do prazo planejado':(delay<0?fmtYM(-delay)+' antes do planejado':fmtYM(delay)+' depois do planejado');
+  else cmp='Planejado: '+fmtYM(n);
+
   $('kpis').innerHTML=
-    kp('Aposentadoria projetada',ok?hit.year:'Não atingida',ok?'Aos '+hit.age.toFixed(1)+' anos':'No período simulado')+
-    kp('Patrimônio na idade planejada',money(last.end),ok?'Renda coberta até a idade planejada':'Renda ainda não coberta')+
-    kp('Renda desejada na data final',money(last.want),'Corrigida pela inflação')+
-    kp('Rendimento mensal na data final',money(last.interest),'Juros do último mês');
+    kp('Aposentadoria projetada',ok?hit.year:'Não atingida',ok?'Aos '+fmtAge(hit.age)+' anos':`Nem em ${CAP_YEARS} anos de simulação`)+
+    kp('Tempo até se aposentar',ok?fmtYM(hit.m):`Mais de ${CAP_YEARS} anos`,cmp)+
+    kp('Patrimônio na idade planejada',money(plan.end),plan.interest>=plan.want?'Renda coberta nesta idade':'Renda ainda não coberta')+
+    kp(ok?'Patrimônio na aposentadoria projetada':'Patrimônio ao fim da simulação',money(ref.end),ok?'Quando os juros cobrem a renda':`Após ${CAP_YEARS} anos`)+
+    kp('Renda desejada nessa data',money(ref.want),'Corrigida pela inflação')+
+    kp('Rendimento mensal nessa data',money(ref.interest),'Juros do mês');
 
   $('totals').innerHTML=
     kp('Total de aportes',money(tc),'Soma de todos os aportes')+
     kp('Aportes extras / retiradas',money(tx),tx>=0?'Saldo líquido extra':'Saldo líquido retirado')+
     kp('Juros acumulados',money(ti),'Soma dos rendimentos mensais')+
     kp('Patrimônio final',money(last.end),'Valor projetado no último período');
-  const nm=sim.filter(x=>x.m>0&&Math.abs(x.contrib-x.auto)>0.005).length;
-  $('manual').innerHTML=`As alterações feitas na tabela entram no cálculo. <strong>${nm}</strong> mês(es) com aporte diferente do automático; os aportes extras / retiradas também estão somados acima.`;
+  const nm=view.filter(x=>x.m>0&&Math.abs(x.contrib-x.auto)>0.005).length;
+  $('manual').innerHTML=`Período considerado: hoje até os <strong>${fmtAge(last.age)} anos</strong> (${fmtYM(last.m)}). As alterações feitas na tabela entram no cálculo. <strong>${nm}</strong> mês(es) com aporte diferente do automático; os aportes extras / retiradas também estão somados acima.`;
 
   const net=Math.max(0,tc+tx), fv=last.end;
   pie('cPie',[Math.min(p.initial,fv),Math.min(net,Math.max(0,fv-p.initial)),Math.min(ti,Math.max(0,fv-p.initial-net))],['#2563eb','#d97706','#0f766e']);
   $('pieText').innerHTML=`<div class="legend" style="margin:0 0 6px"><span><i class="dot" style="background:#2563eb"></i>Patrimônio inicial</span><span><i class="dot" style="background:#d97706"></i>Aportes líquidos</span><span><i class="dot" style="background:#0f766e"></i>Juros acumulados</span></div>Patrimônio final: <strong>${money(fv)}</strong> — aportes: <strong>${money(tc)}</strong>, extras/retiradas: <strong>${money(tx)}</strong>, juros: <strong>${money(ti)}</strong>.`;
 
-  const a=sim.filter((x,i)=>x.m%12===0||i===sim.length-1),lb=a.map(x=>String(x.year));
+  const a=view.filter((x,i)=>x.m%12===0||i===view.length-1),lb=a.map(x=>String(x.year));
   line('cInc',lb,[{data:a.map(x=>x.interest),color:'#0f766e'},{data:a.map(x=>x.want),color:'#dc2626'}]);
   line('cPat',lb,[{data:a.map(x=>x.end),color:'#2563eb'},{data:a.map(x=>x.end/x.infl),color:'#7c3aed'}]);
-  $('cross').innerHTML=ok?`O rendimento mensal passa a cobrir a renda desejada em <strong>${hit.year}</strong>, aos <strong>${hit.age.toFixed(1)} anos</strong>.`:'O rendimento mensal não cobre a renda desejada dentro do período simulado.';
+  $('cross').innerHTML=ok?`O rendimento mensal passa a cobrir a renda desejada em <strong>${hit.year}</strong>, aos <strong>${fmtAge(hit.age)} anos</strong>${delay>0.5?`, ou seja, <strong>${fmtYM(delay)} depois</strong> da idade planejada`:''}.`:`O rendimento mensal não cobre a renda desejada nem em ${CAP_YEARS} anos de simulação.`;
 
   let t='';
-  if(ok){
+  if(ok&&delay>0.5){
+    t+=`<p><span class="badge bad">Aposentadoria depois do planejado</span></p><p>Com estas premissas, você só se aposenta aos <strong>${fmtAge(hit.age)} anos</strong>, <strong>daqui a ${fmtYM(hit.m)}</strong> (em ${hit.year}). Isso é <strong>${fmtYM(delay)} depois</strong> dos ${p.rAge} anos planejados.</p>`;
+    if(hit.age>100) t+=`<p><strong>Com essas premissas você só se aposenta daqui a ${Math.round(hit.m/12)} anos</strong>, prazo que ultrapassa a expectativa de vida. Na prática, o plano precisa ser revisto.</p>`;
+  }else if(ok){
     const early=p.rAge-hit.age;
     if(early>0.25){
-      t+=`<p><span class="badge good">Independência financeira antes do planejado</span></p><p>Pelas premissas atuais, você cobre a renda desejada aos <strong>${hit.age.toFixed(1)} anos</strong>, cerca de <strong>${early.toFixed(1)} anos antes</strong> dos ${p.rAge} anos planejados.</p><p>Você pode antecipar a aposentadoria, ampliar a margem de segurança, elevar a renda desejada ou reduzir o ritmo dos aportes.</p>`;
+      t+=`<p><span class="badge good">Independência financeira antes do planejado</span></p><p>Pelas premissas atuais, você cobre a renda desejada aos <strong>${fmtAge(hit.age)} anos</strong>, cerca de <strong>${fmtYM(early*12)} antes</strong> dos ${p.rAge} anos planejados.</p><p>Você pode antecipar a aposentadoria, ampliar a margem de segurança, elevar a renda desejada ou reduzir o ritmo dos aportes.</p>`;
     }else{
-      t+=`<p><span class="badge good">Meta próxima do planejado</span></p><p>O rendimento mensal passa a cobrir a renda desejada aos <strong>${hit.age.toFixed(1)} anos</strong>, próximo da idade planejada de ${p.rAge} anos.</p>`;
+      t+=`<p><span class="badge good">Meta próxima do planejado</span></p><p>O rendimento mensal passa a cobrir a renda desejada aos <strong>${fmtAge(hit.age)} anos</strong>, próximo da idade planejada de ${p.rAge} anos.</p>`;
     }
   }else{
-    t+=`<p><span class="badge bad">Meta não atingida nas premissas atuais</span></p><p>Com os aportes, a rentabilidade, a inflação e as idades informadas, o rendimento mensal <strong>não cobre a renda desejada</strong> até a idade planejada.</p><p>Considere <strong>aumentar os aportes</strong>, rever a evolução anual deles, ajustar as premissas de rentabilidade e inflação ou <strong>adiar a idade de aposentadoria</strong>. Compare cenários com prudência.</p>`;
+    t+=`<p><span class="badge bad">Meta não atingida</span></p><p><strong>Com essas premissas você só se aposenta daqui a mais de ${CAP_YEARS} anos</strong>, isto é, na prática nunca: mesmo simulando ${CAP_YEARS} anos, o rendimento mensal não cobre a renda desejada corrigida pela inflação.</p>`;
   }
-  t+=`<p>Faltam <strong>${(p.rAge-p.age).toFixed(1)} anos</strong> até a idade planejada. A renda de <strong>${money(p.income)}</strong> em valores de hoje equivale a cerca de <strong>${money(last.want)}</strong> por mês no fim da simulação (inflação de ${$('infl').value}% a.a.). O rendimento mensal evolui de <strong>${money(sim[1]?sim[1].interest:0)}</strong> para <strong>${money(last.interest)}</strong>.</p>`;
+  t+=`<p>Faltam <strong>${fmtYM(n)}</strong> até a idade planejada. A renda de <strong>${money(p.income)}</strong> em valores de hoje equivale a cerca de <strong>${money(plan.want)}</strong> por mês na idade planejada (inflação de ${pct(p.aInfl*100)} a.a.). O rendimento mensal evolui de <strong>${money(view[1]?view[1].interest:0)}</strong> para <strong>${money(plan.interest)}</strong> até essa idade.</p>`;
   $('diag').innerHTML=t;
 
-  $('tb').innerHTML=sim.map(x=>`<tr class="${hit&&x.m===hit.m?'hit':''}"><td>${x.m}</td><td>${x.age.toFixed(1)}</td><td>${x.year}</td><td>${money(x.start)}</td><td>${money(x.interest)}</td>
+  $('sug').innerHTML=suggestions(p,hit,plan);
+
+  $('tb').innerHTML=view.map(x=>`<tr class="${hit&&x.m===hit.m?'hit':''}"><td>${x.m}</td><td>${x.age.toFixed(1)}</td><td>${x.year}</td><td>${money(x.start)}</td><td>${money(x.interest)}</td>
     <td>${x.m?`<input type="number" step="50" value="${x.contrib.toFixed(2)}" onchange="edit(${x.m},'c',this.value)" aria-label="Aporte do mês ${x.m}">`:'—'}</td>
     <td>${x.m?`<input type="number" step="100" value="${x.extra}" onchange="edit(${x.m},'x',this.value)" aria-label="Extra do mês ${x.m}">`:'—'}</td>
     <td>${money(x.end)}</td><td>${money(x.want)}</td></tr>`).join('');
@@ -214,9 +315,12 @@ function render(){
 
 function edit(m,k,v){ov[m]=ov[m]||{};ov[m][k]=num(v);render()}
 $('reset').onclick=()=>{ov={};render()};
+$('useInfl').onclick=()=>{$('infl').value='4.2';render()};
 document.querySelectorAll('.form input,.form select').forEach(e=>e.addEventListener('input',render));
 addEventListener('resize',render);
 render();
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(render);
 </script>
 </body>
 </html>
+
